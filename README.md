@@ -11,8 +11,12 @@
 ・キャンセル報  
 上記は全て対応させるつもりはありません。ご了承下さい。
 ## バージョン(更新履歴・内容)
-v1.0 作成&公開  
-v1.1 題名を「earthquake-early-warning-receiver」から「earthquake-infomation-receiver」に変更(緊急地震速報以外の情報も載せる可能性があるため)
+### v1.0
+作成&公開
+### v1.1
+題名を「earthquake-early-warning-receiver」から「earthquake-infomation-receiver」に変更(緊急地震速報以外の情報も載せる可能性があるため)
+### v1.2
+「seismic-wave-countdown」を追加
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
