@@ -11,8 +11,10 @@ https://2p2quake.net/
 URLは
 https://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/
 です。
+## プライバシー・ポリシー
+### earthquake-early-warning-receiver
+緊急地震速報(警報)が発表されたら即時に情報が入りますが、気象庁の都合により、低精度な可能性があります。  
+ご了承下さい。
 ## 利用規約
-今後作成します。しばらくお待ち下さい。
-## ライセンス
 これは、creative commons zero v1.0 universalに従って公開されています。
 https://creativecommons.org/publicdomain/zero/1.0/deed.ja/
