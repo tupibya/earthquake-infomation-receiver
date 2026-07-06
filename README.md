@@ -6,7 +6,7 @@
 v1.0 作成&公開  
 v1.1 題名を「earthquake-early-warning-receiver」から「earthquake-infomation-receiver」に変更(緊急地震速報以外の情報も載せる可能性があるため)
 ## API詳細
-https://2p2quake.net/ を使用しました。  
+https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
 ## プライバシー・ポリシー
 ### earthquake-early-warning-receiver
