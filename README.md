@@ -25,6 +25,8 @@
 「seismic-wave-countdown.html」をより分かりやすくきっちりと計算されるhtmlに変更
 ### v1.5.1
 「seismic-wave-countdown.html」をより分かりやすくきっちりと計算されるhtmlに変更2
+### v1.6
+飛ぶURLの修正
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
