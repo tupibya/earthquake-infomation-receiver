@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle 82xfo4ga</title>
+
+  <style>
+    
+  </style>
+
+  
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ネルフ 地震モニター</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #FF6600;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .test-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+            z-index: 10;
+        }
+        .test-input {
+            background: #111;
+            border: 1px solid #A34200;
+            color: #FF6600;
+            padding: 5px;
+            width: 60px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .test-btn {
+            background-color: #A34200;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+        }
+        .test-btn:hover {
+            background-color: #FF6600;
+        }
+        .monitor {
+            border: 2px solid #FF6600;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.2);
+            position: relative;
+        }
+        .status {
+            text-align: center;
+            font-size: 14px;
+            border-bottom: 1px solid #FF6600;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #A34200;
+        }
+        .main-display {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        /* 深発地震用のアラートスタイル */
+        .deep-eq-alert {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF2200;
+            letter-spacing: 0.2em;
+            margin-bottom: 10px;
+            min-height: 28px;
+            display: none; /* 初期は非表示 */
+        }
+        .time-counter {
+            font-size: 20vw;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+            line-height: 1;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .box {
+            border: 1px solid #A34200;
+            padding: 12px;
+            background: rgba(255, 102, 0, 0.02);
+        }
+        .box-full {
+            grid-column: span 3;
+        }
+        .label {
+            font-size: 11px;
+            color: #A34200;
+            margin-bottom: 5px;
+        }
+        .val {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FF8833;
+        }
+        .val-time {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF8833;
+        }
+        .val-large {
+            font-size: 32px;
+            color: #FF6600;
+        }
+        .warning-footer {
+            font-size: 11px;
+            color: #FF2200;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 16px;
+            letter-spacing: 0.05em;
+            display: none;
+        }
+        @media (min-width: 600px) {
+            .time-counter { font-size: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="test-container">
+    <span style="font-size:12px; color:#A34200;">テスト用設定：</span>
+    <label style="font-size:11px;">深さ <input type="number" id="test-depth" class="test-input" value="160"> km</label>
+    <label style="font-size:11px;">規模 M <input type="number" id="test-mag" class="test-input" value="6.8" step="0.1"></label>
+    <button class="test-btn" onclick="triggerTestMode(true)">通常テスト</button>
+    <button class="test-btn" style="background-color:#5a0000; color:#ff6600;" onclick="triggerTestMode(false)">経緯度なしテスト</button>
+</div>
+
+<div class="monitor">
+    <div id="ws-status" class="status">回線接続中。有効化のため一度画面をクリックしてください</div>
+    
+    <div class="main-display">
+        <!-- ラベルを削除し、深発地震アラートエリアを新設 -->
+        <div id="deep-eq-alert" class="deep-eq-alert">深発地震</div>
+        <div id="countdown" class="time-counter">--</div>
+    </div>
+
+    <div class="grid">
+        <div class="box box-full">
+            <div class="label">震源地</div>
+            <div id="hypocenter" class="val-time">--</div>
+        </div>
+        <div class="box">
+            <div class="label">深さ</div>
+            <div id="depth" class="val">-- km</div>
+        </div>
+        <div class="box">
+            <div class="label">マグニチュード</div>
+            <div id="mag" class="val">--</div>
+        </div>
+        <div class="box">
+            <div class="label">地震発生時刻</div>
+            <div id="time" class="val">--:--:--</div>
+        </div>
+        <div class="box box-full">
+            <div class="label">現在地の予測震度</div>
+            <div id="shindo" class="val val-large">--</div>
+        </div>
+    </div>
+
+    <div id="warning-footer" class="warning-footer">※震源地の経緯度が定まっていないため、到達時間にズレが生じる可能性があります</div>
+</div>
+<script>
+    const statusEl = document.getElementById('ws-status');
+    const countdownEl = document.getElementById('countdown');
+    const hypocenterEl = document.getElementById('hypocenter');
+    const timeEl = document.getElementById('time');
+    const depthEl = document.getElementById('depth');
+    const magEl = document.getElementById('mag');
+    const shindoEl = document.getElementById('shindo');
+    const warningFooterEl = document.getElementById('warning-footer');
+    const deepEqAlertEl = document.getElementById('deep-eq-alert');
+
+    let countdownInterval = null;
+    let userLat = 35.7; 
+    let userLon = 139.4;
+
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                userLat = position.coords.latitude;
+                userLon = position.coords.longitude;
+            });
+        }
+    }
+
+    function calculateSeismicAndSeconds(depth, magnitude, eqLat, eqLon) {
+        const kyoriX = (eqLon - userLon) * 91.0; 
+        const kyoriY = (eqLat - userLat) * 111.0;
+        const horizontalDistance = Math.sqrt(Math.pow(kyoriX, 2) + Math.pow(kyoriY, 2)) || 50; 
+
+        const hypocenterDistance = Math.sqrt(Math.pow(horizontalDistance, 2) + Math.pow(depth, 2));
+
+        const sWaveSpeed = 3.5; 
+        let remainingSeconds = Math.round(hypocenterDistance / sWaveSpeed);
+        remainingSeconds = Math.max(1, remainingSeconds - 4);
+
+        const a = 0.58 * magnitude;
+        const b = Math.log10(hypocenterDistance + 0.006 * Math.pow(10, 0.5 * magnitude));
+        const c = 0.002 * hypocenterDistance;
+        const logPGV = a - b - c - 1.2;
+        let pgv = Math.pow(10, logPGV) * 1.5;
+
+        let keisokuShindo = 2.0 * Math.log10(pgv) + 0.95;
+        if (keisokuShindo < 0) keisokuShindo = 0;
+
+        let shindoStr = "0";
+        if (keisokuShindo >= 0.5 && keisokuShindo < 1.5) shindoStr = "1";
+        else if (keisokuShindo >= 1.5 && keisokuShindo < 2.5) shindoStr = "2";
+        else if (keisokuShindo >= 2.5 && keisokuShindo < 3.5) shindoStr = "3";
+        else if (keisokuShindo >= 3.5 && keisokuShindo < 4.5) shindoStr = "4";
+        else if (keisokuShindo >= 4.5 && keisokuShindo < 5.0) shindoStr = "5-";
+        else if (keisokuShindo >= 5.0 && keisokuShindo < 5.5) shindoStr = "5+";
+        else if (keisokuShindo >= 5.5 && keisokuShindo < 6.0) shindoStr = "6-";
+        else if (keisokuShindo >= 6.0 && keisokuShindo < 6.5) shindoStr = "6+";
+        else if (keisokuShindo >= 6.5) shindoStr = "7";
+
+        return { seconds: remainingSeconds, shindo: shindoStr };
+    }
+
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ja-JP';
+            utterance.rate = 1.25; 
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function processEEWData(data) {
+        statusEl.textContent = `緊急地震速報 第${data.Serial || '?' }報`;
+        statusEl.style.color = "#FF0000";
+
+        const dDepth = parseFloat(data.Depth) || 40;
+        const dMag = parseFloat(data.Magnitude) || 6.0;
+
+        // 【追加ルール：深発地震判定】深さが150kmを超えているかチェック
+        if (dDepth > 150) {
+            deepEqAlertEl.style.display = "block";
+        } else {
+            deepEqAlertEl.style.display = "none";
+        }
+
+        let hasLocation = true;
+        let eqLat = parseFloat(data.Latitude);
+        let eqLon = parseFloat(data.Longitude);
+
+        if (isNaN(eqLat) || isNaN(eqLon) || eqLat === 0 || eqLon === 0) {
+            hasLocation = false;
+            eqLat = userLat + 0.6;
+            eqLon = userLon + 0.6;
+        }
+
+        if (hasLocation) {
+            warningFooterEl.style.display = "none";
+        } else {
+            warningFooterEl.style.display = "block";
+        }
+
+        const result = calculateSeismicAndSeconds(dDepth, dMag, eqLat, eqLon);
+
+        hypocenterEl.textContent = data.Hypocenter || "調査中";
+        timeEl.textContent = data.OriginTime ? data.OriginTime.substring(11, 19) : "--:--:--";
+        depthEl.textContent = `${dDepth} km`;
+        magEl.textContent = `${dMag}`;
+        shindoEl.textContent = result.shindo;
+
+        const shindoVoiceStr = result.shindo.replace('+', '強').replace('-', '弱');
+        const placeName = data.Hypocenter || "未知の領域";
+
+        clearInterval(countdownInterval);
+        let remainingSeconds = result.seconds; 
+        
+        countdownEl.style.color = "#FF6600";
+        countdownEl.textContent = remainingSeconds;
+
+        speak(`${placeName}で地震発生。${remainingSeconds}秒後、震度${shindoVoiceStr}。`);
+
+        countdownInterval = setInterval(() => {
+            remainingSeconds--;
+
+            if (remainingSeconds <= 0) {
+                clearInterval(countdownInterval);
+                countdownEl.textContent = "0";
+                countdownEl.style.color = "#FF0000";
+                speak("到達。");
+                return;
+            }
+
+            countdownEl.textContent = remainingSeconds;
+
+            if (remainingSeconds === 10) {
+                speak("10秒前。");
+            } 
+            else if (remainingSeconds > 10 && remainingSeconds % 10 === 0) {
+                speak(`${remainingSeconds}秒後、震度${shindoVoiceStr}。`);
+            } 
+            else if (remainingSeconds < 10) {
+                speak(`${remainingSeconds}。`);
+            }
+        }, 1000);
+    }
+
+    function triggerTestMode(includeLocation) {
+        const now = new Date();
+        const inputDepth = parseFloat(document.getElementById('test-depth').value) || 40;
+        const inputMag = parseFloat(document.getElementById('test-mag').value) || 6.5;
+
+        const dummyData = {
+            type: "eew",
+            Serial: "12",
+            Hypocenter: "東京湾",
+            OriginTime: now.toISOString(),
+            Depth: inputDepth,
+            Magnitude: inputMag,
+            Latitude: includeLocation ? userLat + 0.5 : null,
+            Longitude: includeLocation ? userLon + 0.5 : null
+        };
+        processEEWData(dummyData);
+    }
+
+    function connectWS() {
+        const ws = new WebSocket('wss://ws-api.wolfx.jp/jma_eew');
+        ws.onopen = () => {
+            statusEl.textContent = "システム稼働中 地震速報待機";
+            statusEl.style.color = "#00FF00";
+        };
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === "eew") {
+                processEEWData(data);
+            }
+        };
+        ws.onclose = () => {
+            statusEl.textContent = "回線切断 再接続中";
+            statusEl.style.color = "#FF0000";
+            setTimeout(connectWS, 5000);
+        };
+    }
+
+    window.addEventListener('click', () => {
+        if(statusEl.textContent.includes("有効化")) {
+            statusEl.textContent = "システム稼働中 地震速報待機";
+            statusEl.style.color = "#00FF00";
+        }
+    }, { once: true });
+
+    getUserLocation();
+    connectWS();
+</script>
+
+</body>
+</html>
+
+
+  <script>
+    
+  </script>
+</body>
+</html>
