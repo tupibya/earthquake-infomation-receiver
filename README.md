@@ -21,6 +21,8 @@
 「earthquake-early-warning-receiver」をバージョンアップについきこちらもバージョンアップ
 ### v1.4
 「index.html」を追加
+### v1.5
+「seismic-wave-countdown.html」をより分かりやすくきっちりと計算されるhtmlに変更
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
