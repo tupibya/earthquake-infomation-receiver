@@ -26,8 +26,9 @@
 「index.html」のボタンのURLを新しいタブに開くように変更  
 「REDME.md」を一部変更  
 「index.html」のコマンドミス修正  
-「index.html」のボタンのサブタイトルをそれぞれ変更
+「index.html」のボタンのサブタイトルをそれぞれ変更  
 「index.html」「seismic-wave-countdown.html」のタブのタイトルを変更
+「README.md」の一部を変更
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
