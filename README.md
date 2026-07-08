@@ -29,7 +29,7 @@
 「index.html」のボタンのサブタイトルをそれぞれ変更  
 「index.html」「seismic-wave-countdown.html」のタブのタイトルを変更
 ### v1.11 ~ v1.12
-「README.md」の一部を変更
+「README.md」の一部を変更  
 「index.html」の一部を変更
 ## API詳細
 https://p2pquake.net/ を使用しました。  
