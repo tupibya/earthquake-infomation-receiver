@@ -28,9 +28,10 @@
 「index.html」のコマンドミス修正  
 「index.html」のボタンのサブタイトルをそれぞれ変更  
 「index.html」「seismic-wave-countdown.html」のタブのタイトルを変更
-### v1.11 ~ v1.12
+### v1.11 ~ v1.13
 「README.md」の一部を変更  
 「index.html」の一部を変更
+「index.html」の一部の変更
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
