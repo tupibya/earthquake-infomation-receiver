@@ -34,8 +34,9 @@
 「index.html」の一部の変更
 「index.html」の一部を変更
 「index.html」と「README.md」の細かい文字を修正
-### v2.0
+### v2.0 ~ v2.1
 大量の修正・変更・追加・訓練・練習がありました。
+「index.html」の超細かな修正・変更
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
