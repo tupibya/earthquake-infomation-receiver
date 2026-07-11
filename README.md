@@ -34,6 +34,8 @@
 「index.html」の一部の変更
 「index.html」の一部を変更
 「index.html」と「README.md」の細かい文字を修正
+### v2.0
+大量の修正・変更・追加・訓練・練習がありました。
 ## API詳細
 https://p2pquake.net/ を使用しました。  
 URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
@@ -41,6 +43,9 @@ URLはhttps://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0/ です。
 ### earthquake-early-warning-receiver
 緊急地震速報(警報)が発表されたら即時に情報が入りますが、気象庁の都合により、低精度な可能性があります。  
 ご了承下さい。
+### seismic-wave-countdown
+現在故障中です。apiからの情報を受信しない可能性があります。  
+現在はkosho.htmlで故障のページを作成しています。
 ## 利用規約
 これは、creative commons zero v1.0 universalに従って公開されています。
 https://creativecommons.org/publicdomain/zero/1.0/deed.ja/
