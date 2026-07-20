@@ -46,12 +46,15 @@
 ### v5.0 ~ v5.12
 大型アップデートにふさわしいアップデートしたんでこれです  
 色々  
-「haki.html」の一部を変更
-色々
-アイコン付けた
-アイコンによる修正
+「haki.html」の一部を変更  
+色々  
+アイコン付けた  
+アイコンによる修正  
 アイコンによる修正×2
-### v6.0
+### v6.0 ~ v6.1
+色々  
+「README.md」の改行できていなかった問題を修正
+「earthquake-early-warning-receiver.html」が故障(破棄までは行かない)
 ## API詳細
 [P2P地震情報](https://p2pquake.net)を使用しました。  
 URLは[こちら](https://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0)です。
