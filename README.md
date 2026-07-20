@@ -51,6 +51,7 @@
 アイコン付けた
 アイコンによる修正
 アイコンによる修正×2
+### v6.0
 ## API詳細
 [P2P地震情報](https://p2pquake.net)を使用しました。  
 URLは[こちら](https://api.p2pquake.net/v2/history?codes=556&limit=1&offset=0)です。
